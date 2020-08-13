@@ -1,3 +1,9 @@
+// Game States
+// "WIN" - Player robot has defeated all enemy robots
+//    * Fight all enemy robots
+//    * Defeat each enemy robot
+// "LOSE" - Player robot's health is zero or less
+
 var playerName = window.prompt("What is your robot's name?");
 var playerHealth = 100;
 var playerAttack = 10;
@@ -6,12 +12,12 @@ var playerMoney = 10;
 // You can also log multiple logs
 console.log(playerName, playerAttack, playerHealth);
 
-var enemyName = "Roborto";
+var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
 // function created
-var fight = function() {
+var fight = function(enemyNames) {
     // Alerts users the Round started
     window.alert("Welcome to Robot Gladiators!");
 
@@ -29,14 +35,14 @@ var fight = function() {
         
         // Log a resulting message to the console so we know it worked
         console.log(
-        playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
+        playerName + " attacked " + enemyNames + ". " + enemyNames + " now has " + enemyHealth + " health remaining."
     );
 
     // Checks enemy's Health
     if (enemyHealth <= 0) {
-        window.alert(enemyName + " has died!");
+        window.alert(enemyNames + " has died!");
     } else {
-        window.alert(enemyName + " still has " + enemyHealth + " health left.");
+        window.alert(enemyNames + " still has " + enemyHealth + " health left.");
     }
 
     // Subtract the value of 'enemyAttack' from the value of 'playerHealth' and update 'playerHealth'
@@ -44,7 +50,7 @@ var fight = function() {
 
     // Log a resulting message to the console so that we know this worked
     console.log(
-        enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
+        enemyNames + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
     );
 
     // Check player's health
@@ -68,9 +74,11 @@ var fight = function() {
         }
     // If no, run function 'fight' again
         } else {
-            fight();
+            fight(enemyNames[i]);
     }
-};
+}
 
 // function execute
-fight();
+for(var i = 0; i < enemyNames.length; i++) {
+    fight(enemyNames[i]);
+}
