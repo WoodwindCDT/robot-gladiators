@@ -16,6 +16,13 @@ var enemyNames = ["Roborto", "Amy Android", "Robo Trumble"];
 var enemyHealth = 50;
 var enemyAttack = 12;
 
+// The function to generate our random numbers
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+    return value;
+};
+
 // function created
 var fight = function(enemyNames) {
     // To repeat and execute 'fight' as long as robot's are alive
@@ -33,14 +40,17 @@ var fight = function(enemyNames) {
     if (confirmSkip) {
         window.alert(playerName + " has decided to skip this fight. Goodbye!");
             // Money now subtracted from total 'playerMoney'
-            playerMoney = playerMoney - 10;
+            playerMoney = Math.max(0, playerMoney - 10);
             console.log("PlayerMoney", playerMoney)
             break;
         }
     }
         
-    // Subtract the value of 'playerAttack' from the value of 'enemyHealth' and update 'enemyHealth'
-    enemyHealth = enemyHealth - playerAttack;
+    // New Max.math expression allows us to limit the total health to only the greatest number. any negative numbers will cause it to display 0.
+    // To generate random damage value based player's attack damage
+    var damage = randomNumber(playerAttack - 3, playerAttack);
+
+    enemyHealth = Math.max(0, enemyHealth - damage);
         
     // Log a resulting message to the console so we know it worked
     console.log(
@@ -61,7 +71,9 @@ var fight = function(enemyNames) {
     }
 
     // Subtract the value of 'enemyAttack' from the value of 'playerHealth' and update 'playerHealth'
-    playerHealth = playerHealth - enemyAttack;
+    var damage = randomNumber(enemyAttack - 3, enemyAttack);
+    
+    playerHealth = Math.max(0, playerHealth - damage);
 
     // Log a resulting message to the console so that we know this worked
     console.log(
@@ -93,7 +105,7 @@ var startGame = function() {
             var pickedEnemyName = enemyNames[i];
     
             // Resets 'enemyHealth' before starting new fight
-            enemyHealth = 50;
+            enemyHealth = randomNumber(40 , 60);
 
             // Allows us to see what may go wrong in the code
             // debugger;
