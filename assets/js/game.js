@@ -11,29 +11,44 @@ var randomNumber = function(min, max) {
     return value;
 };
 
+var fightOrSkip = function() {
+    // ask user if they'd like to fight or skip using  function
+    var promptFight = window.prompt('Would you like FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
+  
+    // Conditional Recursive Function Call
+    if (promptFight === "" || promptFight === null) {
+    window.alert("You need to provide a valid answer! Please try again.");
+    return fightOrSkip();
+    }
+
+    promptFight = promptFight.toLowerCase();
+
+    // if user picks "skip" confirm and then stop the loop
+    if (promptFight === "skip" || promptFight === "SKIP") {
+      // confirm user wants to skip
+      var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+  
+      // if yes (true), leave fight
+      if (confirmSkip) {
+        window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+        // subtract money from playerMoney for skipping
+        playerInfo.playerMoney = playerInfo.money - 10;
+        shop();
+        return true;
+      }
+      return false;
+    }
+  }
+
 // function created
 var fight = function(enemy) {
     // To repeat and execute 'fight' as long as robot's are alive
     while(enemy.health > 0 && playerInfo.health > 0) {
-
-    // Fighting Prompt to ask to FIGHT or SKIP
-    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
-
-    // If player chooses skip
-    if (promptFight === "skip" || promptFight === "SKIP") {
-        // Area to confirm if user wants to skip
-        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-
-    // if yes, leave fight
-    if (confirmSkip) {
-        window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
-            // Money now subtracted from total 'playerMoney'
-            playerInfo.money = Math.max(0, playerInfo.money - 10);
-            console.log("PlayerMoney", playerInfo.money)
+        if (fightOrSkip()) {
+            // if player skips fight > break loop
             break;
-        }
     }
-        
+    
     // New Max.math expression allows us to limit the total health to only the greatest number. any negative numbers will cause it to display 0.
     // To generate random damage value based player's attack damage
     var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
