@@ -42,55 +42,69 @@ var fightOrSkip = function() {
 
 // function created
 var fight = function(enemy) {
+
+    // To keep track of who goes first
+    var isPlayerTurn = true;
+    // Randomly select player's turn order
+    if (Math.random() > 0.5) {
+        isPlayerTurn = false;
+    }
+
     // To repeat and execute 'fight' as long as robot's are alive
     while(enemy.health > 0 && playerInfo.health > 0) {
+        if (isPlayerTurn) {
+
         if (fightOrSkip()) {
             // if player skips fight > break loop
             break;
     }
     
-    // New Max.math expression allows us to limit the total health to only the greatest number. any negative numbers will cause it to display 0.
-    // To generate random damage value based player's attack damage
-    var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+        // New Max.math expression allows us to limit the total health to only the greatest number. any negative numbers will cause it to display 0.
+        // To generate random damage value based player's attack damage
+        var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
 
-    enemy.health = Math.max(0, enemy.health - damage);
+        enemy.health = Math.max(0, enemy.health - damage);
         
-    // Log a resulting message to the console so we know it worked
-    console.log(
-        playerInfo.name + " attacked " + enemy.name + ". " + enemy.name + " now has " + enemy.health + " health remaining."
-    );
+        // Log a resulting message to the console so we know it worked
+        console.log(
+            playerInfo.name + " attacked " + enemy.name + ". " + enemy.name + " now has " + enemy.health + " health remaining."
+        );
 
-    // Checks enemy's Health
-    if (enemy.health <= 0) {
-        window.alert(enemy.name + " has died!");
+        // Checks enemy's Health
+        if (enemy.health <= 0) {
+            window.alert(enemy.name + " has died!");
 
-        // Award
-        playerInfo.money = playerInfo.money + 20;
+            // Award
+            playerInfo.money = playerInfo.money + 20;
         
-        // To leave if enemy is dead
-        break;
-    } else {
-        window.alert(enemy.name + " still has " + enemy.health + " health left.");
+            // To leave if enemy is dead
+            break;
+        } else {
+            window.alert(enemy.name + " still has " + enemy.health + " health left.");
+        }
+
+        // Random damage given to enemyAttack to playerHealth
+        var damage = randomNumber(enemy.attack - 3, enemy.attack);
+        // Subtract the value of 'enemyAttack' from the value of 'playerHealth' and update 'playerHealth'
+        playerInfo.health = Math.max(0, playerInfo.health - damage);
+
+        // Log a resulting message to the console so that we know this worked
+        console.log(
+            enemy.name + " attacked " + playerInfo.name + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining."
+        );
+
+        // Check player's health
+        if (playerInfo.health <= 0) {
+            window.alert(playerInfo.name + " has died!");
+            // To leave loop while player is dead
+            break;
+        } else {
+            window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
+        }
+        }
+        // To switch turn order for the next round
+        isPlayerTurn = !isPlayerTurn;
     }
-
-    // Subtract the value of 'enemyAttack' from the value of 'playerHealth' and update 'playerHealth'
-    var damage = randomNumber(enemy.attack - 3, enemy.attack);
-    
-    playerInfo.health = Math.max(0, playerInfo.health - damage);
-
-    // Log a resulting message to the console so that we know this worked
-    console.log(
-        enemy.name + " attacked " + playerInfo.name + ". " + playerInfo.name + " now has " + playerInfo.health + " health remaining."
-    );
-
-    // Check player's health
-    if (playerInfo.health <= 0) {
-        break;
-
-    } else {
-        window.alert(playerInfo.name + " still has " + playerInfo.health + " health left.");
-    }
-}
 };
 
 // function execute & // function to start a new game
